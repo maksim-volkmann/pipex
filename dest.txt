@@ -1,2 +1,4 @@
-src Dine3
-src Dine2
+first line$
+second line$
+third line$
+fifth line yes$

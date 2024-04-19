@@ -3,87 +3,48 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/wait.h>
+#include "pipex.h"
 
-int main(int argc, char *argv[], char *envp[])
+
+// int main(int ac, char *av[], char *ep[])
+int main(int ac, char *av[], char *ep[])
 {
-	int fd[2];
+	int number_of_cmd;
+	int number_of_pipes;
+	int *fd;
+	pid_t pid;
+	int i;
 
-	if (pipe(fd) == -1)
+	// if (ac != 5)
+	// {
+	// 	write(2, "Usage: ./pipex infile cmd1 cmd2 outfile\n", 39);
+	// 	return 1;
+	// }
+
+
+	number_of_cmd = ac - 3;
+	ft_printf("Number of commands: %d\n", number_of_cmd);
+
+	number_of_pipes = number_of_cmd - 1;
+	ft_printf("Number of pipes: %d\n", number_of_pipes);
+
+	fd = malloc(sizeof(int) * 2 * number_of_pipes);
+	if (!fd)
 	{
-		perror("pipe");
+		perror("malloc");
 		exit(EXIT_FAILURE);
 	}
-// 	[Parent Process]
-//       |
-//       |------> [Child Process: cmd1] --(writes to)--> [Pipe] --(read by)--> [Child Process: cmd2]
-//       |
-//    (waits for both child processes to complete)
 
+	printf("Number of fds: %d\n", 2 * number_of_pipes);
+	// printf("fd: %d\n", fd);
+	pid = fork();
+	// printf("Parent Process: %d\n", getpid());
+	ft_printf("PID: %d\n", pid);
 
-}
-
-#include <sys/types.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-
-/* Read characters from the pipe and echo them to stdout. */
-
-void	read_from_pipe (int file)
-{
-	FILE *stream;
-	int c;
-	stream = fdopen (file, "r");
-	while ((c = fgetc (stream)) != EOF)
-	putchar (c);
-	fclose (stream);
-}
-
-/* Write some random text to the pipe. */
-
-void	write_to_pipe (int file)
-{
-	FILE *stream;
-	stream = fdopen (file, "w");
-	fprintf (stream, "hello, world!\n");
-	fprintf (stream, "goodbye, world!\n");
-	fclose (stream);
-}
-
-int	main (void)
-{
-	pid_t pid;
-	int mypipe[2];
-
-	/* Create the pipe. */
-	if (pipe (mypipe))
+	while(i < number_of_pipes)
 	{
-		fprintf (stderr, "Pipe failed.\n");
-		return EXIT_FAILURE;
-	}
-
-	/* Create the child process. */
-	pid = fork ();
-	if (pid == (pid_t) 0)
-	{
-		/* This is the child process.
-			Close other end first. */
-		close (mypipe[1]);
-		read_from_pipe (mypipe[0]);
-		return EXIT_SUCCESS;
-	}
-	else if (pid < (pid_t) 0)
-	{
-		/* The fork failed. */
-		fprintf (stderr, "Fork failed.\n");
-		return EXIT_FAILURE;
-	}
-	else
-	{
-		/* This is the parent process.
-			Close other end first. */
-		close (mypipe[0]);
-		write_to_pipe (mypipe[1]);
-		return EXIT_SUCCESS;
+		pipe(fd + 2 * i);
+		i++;
 	}
 }
+
