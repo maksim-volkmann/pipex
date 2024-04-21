@@ -4,7 +4,35 @@
 #include <fcntl.h>
 #include <sys/wait.h>
 
+// if (access(filename, F_OK | R_OK) == 0)
+//if (access(filename, F_OK | W_OK) == 0
 
+// parent_process(pipe_fd, av[4], av[3]);
+void	parent_process(int *pipe_fd, char *dest_file, char *second_cmd)
+{
+	int dest_fd;
+
+	dest_fd = open(dest_file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if(dest_fd == -1)
+	{
+		perror("Open failed");
+		exit(EXIT_FAILURE);
+	}
+	if(dup2(dest_fd, STDOUT_FILENO) == -1)
+	{
+		perror("dup2 failed.");
+		close(dest_fd);
+		exit(EXIT_FAILURE);
+	}
+	close(dest_fd);
+	if(dup2(pipe_fd[0], STDIN_FILENO) == -1)
+	{
+		perror("dup2 failed.");
+		exit(EXIT_FAILURE);
+	}
+	close(pipe_fd[0]);
+	run_command();
+}
 
 void	child_process(int *pipe_fd, char *src_file, char *first_cmd)
 {
