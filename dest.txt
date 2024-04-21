@@ -1,4 +1,4 @@
-first line$
-second line$
-third line$
-fifth line yes$
+first line
+second line
+third line
+fifth line yes

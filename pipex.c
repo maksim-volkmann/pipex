@@ -3,48 +3,47 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/wait.h>
-#include "pipex.h"
 
-
-// int main(int ac, char *av[], char *ep[])
 int main(int ac, char *av[], char *ep[])
 {
-	int number_of_cmd;
-	int number_of_pipes;
-	int *fd;
-	pid_t pid;
-	int i;
+	int fd[2];
+	int fd_src;
+	int fd_dest;
+	pid_t pid1;
 
-	// if (ac != 5)
-	// {
-	// 	write(2, "Usage: ./pipex infile cmd1 cmd2 outfile\n", 39);
-	// 	return 1;
-	// }
-
-
-	number_of_cmd = ac - 3;
-	ft_printf("Number of commands: %d\n", number_of_cmd);
-
-	number_of_pipes = number_of_cmd - 1;
-	ft_printf("Number of pipes: %d\n", number_of_pipes);
-
-	fd = malloc(sizeof(int) * 2 * number_of_pipes);
-	if (!fd)
+	if (ac != 5)
 	{
-		perror("malloc");
+		ft_printf("Usage: ./pipex file1 cmd1 cmd2 file2\n");
 		exit(EXIT_FAILURE);
 	}
-
-	printf("Number of fds: %d\n", 2 * number_of_pipes);
-	// printf("fd: %d\n", fd);
-	pid = fork();
-	// printf("Parent Process: %d\n", getpid());
-	ft_printf("PID: %d\n", pid);
-
-	while(i < number_of_pipes)
+	fd_src = open(av[1], O_RDONLY);
+	if (fd_src == -1)
 	{
-		pipe(fd + 2 * i);
-		i++;
+		perror("open");
+		exit(EXIT_FAILURE);
 	}
+	fd_dest = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd_dest == -1)
+	{
+		perror("open");
+		close(fd_src);
+		exit(EXIT_FAILURE);
+	}
+	if (pipe(fd) == -1)
+	{
+		perror("pipe");
+		exit(EXIT_FAILURE);
+	}
+	pid1 = fork();
+	if(pid1 == 0)
+	{
+		//child process
+	}
+	if(pid1 > 1)
+	{
+		//parent process
+	}
+	close(fd_src);
+	close(fd_dest);
 }
 
