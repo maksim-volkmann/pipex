@@ -38,6 +38,11 @@ void	child_process(int *pipe_fd, char *src_file, char *first_cmd)
 {
 	int src_fd;
 
+	if (access(src_file, F_OK | R_OK) != 0)
+	{
+		perror("Cant access src file.");
+		exit(EXIT_FAILURE);
+	}
 	src_fd = open(src_file, O_RDONLY);
 	if(src_fd == -1)
 	{
@@ -58,7 +63,6 @@ void	child_process(int *pipe_fd, char *src_file, char *first_cmd)
 	}
 	close(pipe_fd[1]);
 	run_command();
-
 }
 
 
