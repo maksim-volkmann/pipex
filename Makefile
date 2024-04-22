@@ -6,7 +6,7 @@
 #    By: mvolkman <mvolkman@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 13:56:33 by mvolkman          #+#    #+#              #
-#    Updated: 2024/04/19 14:18:14 by mvolkman         ###   ########.fr        #
+#    Updated: 2024/04/22 10:39:43 by mvolkman         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ CFLAGS =
 # Source files for Pipex
 SRC = \
 	pipex.c \
+	utils.c \
 
 # Object files
 OBJ = $(SRC:.c=.o)

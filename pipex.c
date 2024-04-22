@@ -1,12 +1,19 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/wait.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvolkman <mvolkman@student.42heilbronn.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/22 10:04:05 by mvolkman          #+#    #+#             */
+/*   Updated: 2024/04/22 10:52:35 by mvolkman         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-// if (access(filename, F_OK | R_OK) == 0)
+//if (access(filename, F_OK | R_OK) == 0)
 //if (access(filename, F_OK | W_OK) == 0
 
+#include "pipex.h"
 // parent_process(pipe_fd, av[4], av[3]);
 void	parent_process(int *pipe_fd, char *dest_file, char *second_cmd)
 {
@@ -31,7 +38,7 @@ void	parent_process(int *pipe_fd, char *dest_file, char *second_cmd)
 		exit(EXIT_FAILURE);
 	}
 	close(pipe_fd[0]);
-	run_command();
+	// run_command();
 }
 
 void	child_process(int *pipe_fd, char *src_file, char *first_cmd)
@@ -40,7 +47,7 @@ void	child_process(int *pipe_fd, char *src_file, char *first_cmd)
 
 	if (access(src_file, F_OK | R_OK) != 0)
 	{
-		perror("Cant access src file.");
+		perror("Cant access src file or does not exists.");
 		exit(EXIT_FAILURE);
 	}
 	src_fd = open(src_file, O_RDONLY);
@@ -62,7 +69,7 @@ void	child_process(int *pipe_fd, char *src_file, char *first_cmd)
 		exit(EXIT_FAILURE);
 	}
 	close(pipe_fd[1]);
-	run_command();
+	// run_command();
 }
 
 
@@ -120,17 +127,17 @@ int main(int ac, char *av[], char *ep[])
 		ft_printf("Usage: ./pipex file1 cmd1 cmd2 file2\n");
 		exit(EXIT_FAILURE);
 	}
-
-	if (pipe(pipe_fd) == -1)
-	{
-		perror("pipe");
-		exit(EXIT_FAILURE);
-	}
-	pid1 = fork();
-	if(pid1 == 0)
-		child_process(pipe_fd, av[1], av[2]);
-	waitpid(pid1, NULL, 0);
-	parent_process(pipe_fd, av[4], av[3]);
-
+	run_command(av[2], ep);
+	// if (pipe(pipe_fd) == -1)
+	// {
+	// 	perror("pipe");
+	// 	exit(EXIT_FAILURE);
+	// }
+	// pid1 = fork();
+	// if(pid1 == 0)
+	// 	child_process(pipe_fd, av[1], av[2]);
+	// waitpid(pid1, NULL, 0);
+	// parent_process(pipe_fd, av[4], av[3]);
+	return (0);
 }
 
