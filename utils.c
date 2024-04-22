@@ -6,7 +6,7 @@
 /*   By: mvolkman <mvolkman@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 09:33:08 by mvolkman          #+#    #+#             */
-/*   Updated: 2024/04/22 14:56:19 by mvolkman         ###   ########.fr       */
+/*   Updated: 2024/04/22 17:40:13 by mvolkman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,12 @@ char	*find_correct_path(char *cmd, char **ep)
 		{
 			path = ep[i] + 5;
 			paths = ft_split(path, ':');
-			// for(int i = 0; paths[i] != NULL; i++)
-			// {
-			// 	printf("Paths: %s\n", paths[i]);
-			// }
+			printf("Path: %s\n", path);
+			for(int i = 0; paths[i] != NULL; i++)
+			{
+				printf("Paths: %s\n", paths[i]);
+			}
+			// sleep(5);
 			executable_path = check_command_in_paths(paths, cmd);
 			free(paths);
 			if (executable_path != NULL)
@@ -81,18 +83,15 @@ void	run_command(char *cmd, char **ep)
 	executable_path = find_correct_path(cmd_arr[0], ep);
 	if (executable_path == NULL)
 	{
-		printf("Command not found: %s\n", cmd_arr[0]);
+		perror("Command1 not found");
 		exit(EXIT_FAILURE);
 	}
 
 	// printf("executable_path: %s", executable_path);
 	execve(executable_path, cmd_arr, ep);
-	// if (executable_path)
-	// {
-	// 	execve(executable_path, cmd_arr, ep);
-	// 	perror("execve failed");  // execve should not return on success
-	// 	free(executable_path);  // Make sure to free the path after execve call
-	// } else {
-	// 	printf("Command not found: %s\n", cmd_arr[0]);
-	// }
+	perror("execve");  // Use perror after execve to print error if it fails
+    // perror("execve failed");
+    free(executable_path);
+    free(cmd_arr);
+    exit(EXIT_FAILURE);  // Exit after cleanup if execve fails
 }

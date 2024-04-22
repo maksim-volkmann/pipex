@@ -1,0 +1,8 @@
+./pipex non_exist_input "cat /dev/random" "wc" dest.txt
+./pipex src.txt "catds /dev/random" "ls" dest.txt
+./pipex non_exist_input "ls" "wc" dest.txt
+./pipex src.txt "csdfat" "wsdfc -cl" dest.txt
+./pipex non_exist_input "/bin/catsdc" "wcss -cl" dest.txt
+./pipex non_exist_input "sleep 9" "sleep 4" dest.txt
+./pipex src.txt "/bin/caqwdt" "/bin/lsqwd -ls" dest.txt
+./pipex src.txt "/srcs/a.out" "ls" dest.txt
