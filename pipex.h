@@ -6,7 +6,7 @@
 /*   By: mvolkman <mvolkman@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:52:03 by mvolkman          #+#    #+#             */
-/*   Updated: 2024/04/22 10:51:16 by mvolkman         ###   ########.fr       */
+/*   Updated: 2024/04/22 13:34:00 by mvolkman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@
 #include <sys/wait.h>
 # include "libft/include/libft.h"
 
-char *find_path(char **ep);
-char *run_command(char *cmd, char **ep);
+char *create_cmd_path(char *dir, char *cmd);
+char *find_correct_path(char *cmd, char **ep);
+void run_command(char *cmd, char **ep);
 
 #endif
