@@ -1,13 +1,1 @@
-command: grep
-Paths: /Users/mvolkman/.brew/bin
-Paths: /usr/local/bin
-Paths: /usr/bin
-Paths: /bin
-Paths: /usr/sbin
-Paths: /sbin
-Paths: /usr/local/munki
-Paths: /Library/Apple/usr/bin
-Paths: /Users/mvolkman/.brew/bin
-Paths: /Applications/Visual Studio Code.app/Contents/Resources/app/bin
-Paths: /Applications/Visual Studio Code.app/Contents/Resources/app/bin
-executable_path: /usr/bin/grep
+-e 'Hello there /!'$

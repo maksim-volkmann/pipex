@@ -6,7 +6,7 @@
 /*   By: mvolkman <mvolkman@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 10:04:05 by mvolkman          #+#    #+#             */
-/*   Updated: 2024/04/22 14:32:28 by mvolkman         ###   ########.fr       */
+/*   Updated: 2024/04/22 15:46:59 by mvolkman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	parent_process(int *pipe_fd, char *dest_file, char *second_cmd, char **ep)
 {
 	int dest_fd;
 
+	close(pipe_fd[1]);
 	dest_fd = open(dest_file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if(dest_fd == -1)
 	{
@@ -39,12 +40,14 @@ void	parent_process(int *pipe_fd, char *dest_file, char *second_cmd, char **ep)
 	}
 	close(pipe_fd[0]);
 	run_command(second_cmd, ep);
+	exit(0);
 }
 
 void	child_process(int *pipe_fd, char *src_file, char *first_cmd, char **ep)
 {
 	int src_fd;
 
+	close(pipe_fd[0]);
 	if (access(src_file, F_OK | R_OK) != 0)
 	{
 		perror("Cant access src file or does not exists.");
@@ -74,51 +77,9 @@ void	child_process(int *pipe_fd, char *src_file, char *first_cmd, char **ep)
 
 
 
-// int main(int ac, char *av[], char *ep[])
-// {
-// 	int fd[2];
-// 	// int fd_src;
-// 	// int fd_dest;
-// 	pid_t pid1;
-
-// 	if (ac != 5)
-// 	{
-// 		ft_printf("Usage: ./pipex file1 cmd1 cmd2 file2\n");
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	// fd_src = open(av[1], O_RDONLY);
-// 	// if (fd_src == -1)
-// 	// {
-// 	// 	perror("open");
-// 	// 	exit(EXIT_FAILURE);
-// 	// }
-// 	// fd_dest = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-// 	// if (fd_dest == -1)
-// 	// {
-// 	// 	perror("open");
-// 	// 	close(fd_src);
-// 	// 	exit(EXIT_FAILURE);
-// 	// }
-// 	if (pipe(fd) == -1)
-// 	{
-// 		perror("pipe");
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	pid1 = fork();
-// 	if(pid1 == 0)
-// 	{
-// 		child_process(fd[0]);
-// 	}
-// 	if(pid1 > 1)
-// 	{
-// 		//parent process
-// 	}
-// 	// close(fd_src);
-// 	// close(fd_dest);
-// }
-
 int main(int ac, char **av, char **ep)
 {
+	int status;
 	int pipe_fd[2];
 	pid_t pid1;
 
@@ -127,7 +88,6 @@ int main(int ac, char **av, char **ep)
 		ft_printf("Usage: ./pipex file1 cmd1 cmd2 file2\n");
 		exit(EXIT_FAILURE);
 	}
-
 	if (pipe(pipe_fd) == -1)
 	{
 		perror("pipe");
@@ -136,7 +96,12 @@ int main(int ac, char **av, char **ep)
 	pid1 = fork();
 	if(pid1 == 0)
 		child_process(pipe_fd, av[1], av[2], ep);
-	waitpid(pid1, NULL, 0);
+	waitpid(pid1, &status, 0);
+	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+	{
+	// Child process exited with an error, so we should exit too.
+		exit(WEXITSTATUS(status));
+	}
 	parent_process(pipe_fd, av[4], av[3], ep);
 	return (0);
 }
