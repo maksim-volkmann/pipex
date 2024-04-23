@@ -6,7 +6,7 @@
 /*   By: mvolkman <mvolkman@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 09:33:08 by mvolkman          #+#    #+#             */
-/*   Updated: 2024/04/23 13:15:33 by mvolkman         ###   ########.fr       */
+/*   Updated: 2024/04/23 15:37:38 by mvolkman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ void	run_command(char *cmd, char **ep)
 		executable_path = ft_strdup(cmd_arr[0]);
 	else
 	{
-		// printf("command: %s\n", cmd_arr[0]);
 		executable_path = find_correct_path(cmd_arr[0], ep);
 		if (executable_path == NULL)
 		{
@@ -100,13 +99,12 @@ void	run_command(char *cmd, char **ep)
 			exit(EXIT_FAILURE);
 		}
 	}
-
-
-	printf("executable_path: %s", executable_path);
 	execve(executable_path, cmd_arr, ep);
-	perror("execve");
-	// perror("execve failed");
+	perror("execve failed");
 	free(executable_path);
 	ft_free_split(cmd_arr);
 	exit(EXIT_FAILURE);
 }
+
+// ./pipex non_exist_input "cat /dev/random" "wc" dest.txt
+// < src3.txt cat /dev/random | head -n 5 > dest2.txt

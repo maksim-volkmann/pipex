@@ -6,3 +6,11 @@
 ./pipex non_exist_input "sleep 9" "sleep 4" dest.txt
 ./pipex src.txt "/bin/caqwdt" "/bin/lsqwd -ls" dest.txt
 ./pipex src.txt "/srcs/a.out" "ls" dest.txt
+
+
+// ./pipex non_exist_input "cat /dev/random" "wc" dest.txt
+// < src3.txt cat /dev/random | head -n 5 > dest2.txt
+
+
+==============>Test 5   < non_exist_input /bin/catsdc | wcss -cl                : [KO]
+==============>Test 6   < non_exist_input sleep 9 | sleep 4                     : [KO]

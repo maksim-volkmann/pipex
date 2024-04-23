@@ -6,13 +6,12 @@
 #    By: mvolkman <mvolkman@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 13:56:33 by mvolkman          #+#    #+#              #
-#    Updated: 2024/04/23 10:20:58 by mvolkman         ###   ########.fr        #
+#    Updated: 2024/04/23 15:19:28 by mvolkman         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
-# CFLAGS = -Wall -Wextra -Werror
 
 # Source files for Pipex
 SRC = \
