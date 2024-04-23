@@ -6,7 +6,7 @@
 /*   By: mvolkman <mvolkman@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 09:33:08 by mvolkman          #+#    #+#             */
-/*   Updated: 2024/04/23 15:37:38 by mvolkman         ###   ########.fr       */
+/*   Updated: 2024/04/23 15:51:26 by mvolkman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_free_split(char **arr)
 	int	i;
 
 	if (!arr)
-		return;
+		return ;
 	i = 0;
 	while (arr[i])
 		free(arr[i++]);
@@ -30,11 +30,9 @@ char	*create_cmd_path(char *dir, char *cmd)
 	char	*full_path;
 
 	path = ft_strjoin(dir, "/");
-	printf("Path: %s\n", path);
 	full_path = ft_strjoin(path, cmd);
-	printf("Full path: %s\n", full_path);
 	free(path);
-	return full_path;
+	return (full_path);
 }
 
 char	*check_command_in_paths(char **paths, char *cmd)
@@ -47,11 +45,11 @@ char	*check_command_in_paths(char **paths, char *cmd)
 	{
 		full_path = create_cmd_path(paths[x], cmd);
 		if (access(full_path, X_OK) == 0)
-			return full_path;
+			return (full_path);
 		free(full_path);
 		x++;
 	}
-	return NULL;
+	return (NULL);
 }
 
 char	*find_correct_path(char *cmd, char **ep)
@@ -68,25 +66,24 @@ char	*find_correct_path(char *cmd, char **ep)
 		{
 			path = ep[i] + 5;
 			paths = ft_split(path, ':');
-			// printf("Path: %s\n", path);
 			executable_path = check_command_in_paths(paths, cmd);
 			ft_free_split(paths);
 			if (executable_path != NULL)
-				return executable_path;
+				return (executable_path);
 			break ;
 		}
 		i++;
 	}
-	return NULL;
+	return (NULL);
 }
 
 void	run_command(char *cmd, char **ep)
 {
-	char **cmd_arr;
-	char *executable_path;
+	char	**cmd_arr;
+	char	*executable_path;
 
 	cmd_arr = ft_split(cmd, ' ');
-	if(ft_strchr(cmd_arr[0], '/') != NULL)
+	if (ft_strchr(cmd_arr[0], '/') != NULL)
 		executable_path = ft_strdup(cmd_arr[0]);
 	else
 	{
