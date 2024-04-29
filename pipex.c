@@ -6,7 +6,7 @@
 /*   By: mvolkman <mvolkman@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 10:04:05 by mvolkman          #+#    #+#             */
-/*   Updated: 2024/04/29 10:09:14 by mvolkman         ###   ########.fr       */
+/*   Updated: 2024/04/29 10:16:53 by mvolkman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,29 @@ void	clean_up(char *err_msg, int fd1, int fd2)
 	if (fd2 != -1)
 		close(fd2);
 	exit(EXIT_FAILURE);
+}
+
+void	initial_setup(int ac, int *pipe_fd)
+{
+	if (ac != 5)
+	{
+		ft_printf("Usage: ./pipex file1 cmd1 cmd2 file2\n");
+		exit(EXIT_FAILURE);
+	}
+	if (pipe(pipe_fd) == -1)
+		clean_up("pipe failed", -1, -1);
+}
+
+
+
+void	close_and_wait(int *pipe_fd, pid_t pid1, pid_t pid2)
+{
+	int status;
+
+	close(pipe_fd[0]);
+	close(pipe_fd[1]);
+	waitpid(pid1, &status, 0);
+	waitpid(pid2, &status, 0);
 }
 
 void	child_process_1(int *pipe_fd, char *src_file, char *cmd1, char **ep)
@@ -59,34 +82,26 @@ void	child_process_2(int *pipe_fd, char *dest_file, char *cmd2, char **ep)
 int	main(int ac, char **av, char **ep)
 {
 	int		pipe_fd[2];
-	int		status;
 	pid_t	pid1;
 	pid_t	pid2;
 
-	if (ac != 5)
-	{
-		ft_printf("Usage: ./pipex file1 cmd1 cmd2 file2\n");
-		exit(EXIT_FAILURE);
-	}
-	if (pipe(pipe_fd) == -1)
-		clean_up("pipe failed", -1, -1);
+	initial_setup(ac, pipe_fd);
 	pid1 = fork();
 	if (pid1 == 0)
+	{
 		child_process_1(pipe_fd, av[1], av[2], ep);
+		exit(EXIT_SUCCESS);
+	}
 	if (pid1 > 0)
 	{
 		pid2 = fork();
 		if (pid2 == 0)
 		{
 			child_process_2(pipe_fd, av[4], av[3], ep);
+			exit(EXIT_SUCCESS);
 		}
 	}
 	if (pid1 > 0 && pid2 > 0)
-	{
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
-		waitpid(pid1, &status, 0);
-		waitpid(pid2, &status, 0);
-	}
+		close_and_wait(pipe_fd, pid1, pid2);
 	return (0);
 }

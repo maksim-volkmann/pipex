@@ -6,7 +6,7 @@
 /*   By: mvolkman <mvolkman@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 09:33:08 by mvolkman          #+#    #+#             */
-/*   Updated: 2024/04/23 15:51:26 by mvolkman         ###   ########.fr       */
+/*   Updated: 2024/04/29 10:20:10 by mvolkman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,3 +105,4 @@ void	run_command(char *cmd, char **ep)
 
 // ./pipex non_exist_input "cat /dev/random" "wc" dest.txt
 // < src3.txt cat /dev/random | head -n 5 > dest2.txt
+// ./pipex /dev/urandom cat "head -1" dest.txt
