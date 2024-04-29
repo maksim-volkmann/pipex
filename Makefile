@@ -6,7 +6,7 @@
 #    By: mvolkman <mvolkman@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 13:56:33 by mvolkman          #+#    #+#              #
-#    Updated: 2024/04/29 11:22:49 by mvolkman         ###   ########.fr        #
+#    Updated: 2024/04/29 11:56:02 by mvolkman         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ CFLAGS = -Wall -Wextra -Werror -g
 # Source files for Pipex
 SRC = \
 	pipex.c \
+	run_commands.c \
 	utils.c \
 
 # Object files
