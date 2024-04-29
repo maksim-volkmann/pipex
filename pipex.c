@@ -6,7 +6,7 @@
 /*   By: mvolkman <mvolkman@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 10:04:05 by mvolkman          #+#    #+#             */
-/*   Updated: 2024/04/29 10:16:53 by mvolkman         ###   ########.fr       */
+/*   Updated: 2024/04/29 10:40:46 by mvolkman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	child_process_1(int *pipe_fd, char *src_file, char *cmd1, char **ep)
 	close(pipe_fd[0]);
 	src_fd = open(src_file, O_RDONLY);
 	if (src_fd == -1)
-		clean_up("Failed to open source file", pipe_fd[1], -1);
+		clean_up("Error:", pipe_fd[1], -1);
 	if (dup2(src_fd, STDIN_FILENO) == -1)
 		clean_up("dup2 failed", pipe_fd[1], src_fd);
 	close(src_fd);

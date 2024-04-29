@@ -6,7 +6,7 @@
 #    By: mvolkman <mvolkman@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 13:56:33 by mvolkman          #+#    #+#              #
-#    Updated: 2024/04/23 15:19:28 by mvolkman         ###   ########.fr        #
+#    Updated: 2024/04/29 11:22:49 by mvolkman         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,4 +68,53 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+testme:
+	@echo "$(BLUE)./pipex src.txt \"cat\" \"wc\" dest.txt$(WHITE)"
+	@echo "$(GREEN)< src.txt cat | wc > dest2.txt$(WHITE)"
+	@echo ""
+
+	@echo "$(BLUE)./pipex src.txt \"wc -w\" \"sort\" dest.txt$(WHITE)"
+	@echo "$(GREEN)< src.txt wc -w | sort > dest2.txt$(WHITE)"
+	@echo ""
+
+	@echo "$(BLUE)./pipex src.txt \"ls -l\" \"grep txt\" dest.txt$(WHITE)"
+	@echo "$(GREEN)< src.txt ls -l | grep txt > dest2.txt$(WHITE)"
+	@echo ""
+
+	@echo "$(BLUE)./pipex src.txt \"head -n 5\" \"tail -n 3\" dest.txt$(WHITE)"
+	@echo "$(GREEN)< src.txt head -n 5 | tail -n 3 > dest2.txt$(WHITE)"
+	@echo ""
+
+	@echo "$(BLUE)./pipex src.txt \"cat\" \"sort\" dest.txt$(WHITE)"
+	@echo "$(GREEN)< src.txt cat | sort > dest2.txt$(WHITE)"
+	@echo ""
+
+	@echo "$(BLUE)./pipex src.txt \"grep txt\" \"wc -l\" dest.txt$(WHITE)"
+	@echo "$(GREEN)< src.txt grep txt | wc -l > dest2.txt$(WHITE)"
+	@echo ""
+
+	@echo "$(BLUE)./pipex src.txt \"nl\" \"head -n 10\" dest.txt$(WHITE)"
+	@echo "$(GREEN)< src.txt nl | head -n 10 > dest2.txt$(WHITE)"
+	@echo ""
+
+	@echo "$(BLUE)./pipex src.txt \"tail -n 20\" \"sort -r\" dest.txt$(WHITE)"
+	@echo "$(GREEN)< src.txt tail -n 20 | sort -r > dest2.txt$(WHITE)"
+	@echo ""
+
+	@echo "$(BLUE)./pipex src.txt \"head -n 1\" \"tr a A\" dest.txt$(WHITE)"
+	@echo "$(GREEN)< src.txt head -n 1 | tr a A > dest2.txt$(WHITE)"
+	@echo ""
+
+	@echo "$(BLUE)./pipex src.txt \"/bin/grep txt\" \"wc -l\" dest.txt$(WHITE)"
+	@echo "$(GREEN)< src.txt /bin/grep txt | wc -l > dest2.txt$(WHITE)"
+	@echo ""
+
+	@echo "$(BLUE)./pipex src.txt \"/bin/cat\" \"sort\" dest.txt$(WHITE)"
+	@echo "$(GREEN)< src.txt /bin/cat | sort > dest2.txt$(WHITE)"
+	@echo ""
+
+	@echo "$(BLUE)./pipex src.txt \"head -n 10\" \"/usr/bin/sort -r\" dest.txt$(WHITE)"
+	@echo "$(GREEN)< src.txt head -n 10 | /usr/bin/sort -r > dest2.txt$(WHITE)"
+
+
+.PHONY: all clean fclean re testme

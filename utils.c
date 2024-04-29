@@ -6,7 +6,7 @@
 /*   By: mvolkman <mvolkman@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 09:33:08 by mvolkman          #+#    #+#             */
-/*   Updated: 2024/04/29 10:20:10 by mvolkman         ###   ########.fr       */
+/*   Updated: 2024/04/29 10:45:14 by mvolkman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	run_command(char *cmd, char **ep)
 		executable_path = find_correct_path(cmd_arr[0], ep);
 		if (executable_path == NULL)
 		{
-			perror("Command not found");
+			perror("Error");
 			free(executable_path);
 			ft_free_split(cmd_arr);
 			exit(EXIT_FAILURE);
