@@ -6,7 +6,7 @@
 /*   By: mvolkman <mvolkman@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 10:04:05 by mvolkman          #+#    #+#             */
-/*   Updated: 2024/04/23 15:53:01 by mvolkman         ###   ########.fr       */
+/*   Updated: 2024/04/29 10:09:14 by mvolkman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,20 @@ int	main(int ac, char **av, char **ep)
 	pid1 = fork();
 	if (pid1 == 0)
 		child_process_1(pipe_fd, av[1], av[2], ep);
-	pid2 = fork();
-	if (pid2 == 0)
-		child_process_2(pipe_fd, av[4], av[3], ep);
-	close(pipe_fd[0]);
-	close(pipe_fd[1]);
-	waitpid(pid1, &status, 0);
-	waitpid(pid2, &status, 0);
+	if (pid1 > 0)
+	{
+		pid2 = fork();
+		if (pid2 == 0)
+		{
+			child_process_2(pipe_fd, av[4], av[3], ep);
+		}
+	}
+	if (pid1 > 0 && pid2 > 0)
+	{
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
+		waitpid(pid1, &status, 0);
+		waitpid(pid2, &status, 0);
+	}
 	return (0);
 }
